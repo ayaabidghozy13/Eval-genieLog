@@ -1,2 +1,32 @@
-Ecrire ici votre réponse à la question UML.
+L'analyse des modèles UML Figure 2 (Héritage) et Figure 3 (Composition) révèle des compromis fondamentaux concernant la flexibilité et la maintenabilité du système de gestion d'événements.
 
+1. Modèle 1 : Approche par Héritage (Figure 2)
+
+Le Modèle 1 structure la solution autour d'une hiérarchie de classes strictes.
+
+(+)Avantages :
+    + Clarté Sémantique :Fournit une classification immédiate et forte du type d'événement, facilitant l'implémentation du polymorphisme 
+    pour des comportements très différents entre sous-classes.
+
+(-)Inconvénients :
+    -Rigidité Structurelle : L'héritage crée un couplage fort, où la nature d'un objet (`SimpleEvent`, `RepetitiveEvent`) est statique et immuable.
+    -Violation du Principe de Substitution : Il est impossible de modifier le statut de récurrence d'une instance (`SimpleEvent` $\rightarrow$ `RepetitiveEvent`) 
+    sans détruire et recréer l'objet, ce qui nuit à la continuité d'identité de l'entité dans un système dynamique.
+    -Évolutivité Limitée : Toute nouvelle règle de récurrence ou de terminaison oblige à étendre l'arbre d'héritage, menant potentiellement
+     à des problèmes de sous-classes parallèles et à une complexité excessive.
+
+ 2. Modèle 2 : Approche par Composition (Figure 3)
+
+Le Modèle 2 modélise la récurrence comme une propriété optionnelle (`0..1`) de la classe Event, déléguant la logique à des classes composantes Repetition`, Termination.
+
+(+)Avantages :
+    -Flexibilité et Dynamisme : Permet une modification dynamique du statut de récurrence d'un événement au cours de son cycle de vie, sans changer son type d'exécution.
+    -Séparation des Responsabilités  :Les préoccupations sont isolées. Even gère l'identité de base tandis que Repetition et Termination  gèrent la complexité algorithmique de la récurrence et du calcul de fin.
+    -Haute Extensibilité : L'ajout de nouveaux types de récurrence (ex. : règles complexes, terminaisons conditionnelles) peut se faire par l'extension ou la modification des classes de composition, sans impacter la classe racine Event.
+
+=>
+
+Le Modèle 2 (Composition) est la solution techniquement supérieure et recommandée pour la conception de ce système. 
+Il respecte les principes modernes de la conception orientée objet en promouvant un couplage faible et une haute cohésion.
+L'approche par composition offre une flexibilité, une maintenabilité et une extensibilité accrues, permettant au système de mieux s'adapter
+ aux changements d'exigences futures, contrairement à la rigidité structurelle imposée par l'héritage dans le Modèle 1.
